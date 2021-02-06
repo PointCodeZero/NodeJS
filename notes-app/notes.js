@@ -1,4 +1,5 @@
 const fs = require('fs');
+const chalk = require('chalk');
 
 const loadNotes = () => {
   try {
@@ -13,7 +14,6 @@ const loadNotes = () => {
 const saveNotes = (notes) => {
   const dataJSON = JSON.stringify(notes);
   fs.writeFileSync('notes.json', dataJSON);
-  console.log('Note saved!');
 }
 
 const getNotes = () => {
@@ -26,12 +26,26 @@ const addNote = (title, body) => {
   if (hasDuplicateNote) {
     notes.push({ title, body });
     saveNotes(notes);
+    console.log('Note added!');
   } else {
     console.log(`Note "${title}" already exists`);
   }
 }
 
+const removeNote = (title) => {
+  const notes = loadNotes();
+  const hasNote = notes.some((n) => n.title === title);
+  if (hasNote) {
+    const newNotes = notes.filter((n) => n.title !== title);
+    saveNotes(newNotes);
+    console.log(chalk.green.inverse('Note removed!'));
+  } else {
+    console.log(chalk.red.inverse('No note found!'));
+  }
+}
+
 module.exports = {
   getNotes,
-  addNote
+  addNote,
+  removeNote
 };
