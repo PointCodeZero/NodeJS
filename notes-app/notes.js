@@ -16,10 +16,6 @@ const saveNotes = (notes) => {
   fs.writeFileSync('notes.json', dataJSON);
 }
 
-const getNotes = () => {
-  return 'Your notes...';
-}
-
 const addNote = (title, body) => {
   const notes = loadNotes();
   const hasDuplicateNote = notes.some((n) => n.title === title);
@@ -61,7 +57,6 @@ const readNote = (title) => {
 }
 
 module.exports = {
-  getNotes,
   addNote,
   removeNote,
   listNotes,
